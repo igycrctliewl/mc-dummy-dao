@@ -141,9 +141,9 @@ public class ItemDaoDummyImpl implements ItemDao {
 
 	private Item generateObject( Long id, String name, String imageSource ) {
 		return Item.builder()
-				  .id( id )
-				  .name( name )
-				  .imageSource( imageSource )
-				  .build();
+				.id( id )
+				.name( name )
+				.imageSource( imageSource )
+				.build();
 	}
 }
