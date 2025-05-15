@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="MBConsoleLog" target="SYSTEM_OUT">
+            <!--  [%t] prints current thread
+                  %-5level does this print the messsage level?
+                  %logger{36} I think this prints the class name, limited to 36 chars
+                  (%M:%L) prints the method name and line number
+                  %msg%n  prints the log message and newline
+             -->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} : %-5p: [%t] : %c (%F:%L) - %m%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="mb.minecraft.dao" level="info" additivity="false">
+            <AppenderRef ref="MBConsoleLog"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="MBConsoleLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
