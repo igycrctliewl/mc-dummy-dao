@@ -102,7 +102,7 @@ public class VillageDaoDummyImpl implements VillageDao {
 
 	private long deriveId( Village newRow ) {
 		long newId = newRow.getId() != null ? newRow.getId() : 0;
-		if( idSeq < newId ) {
+		if( idSeq <= newId ) {
 			idSeq = newId + 1;
 			return newId;
 		}

@@ -102,7 +102,7 @@ public class ItemDaoDummyImpl implements ItemDao {
 
 	private long deriveId( Item newRow ) {
 		long newId = newRow.getId() != null ? newRow.getId() : 0;
-		if( idSeq < newId ) {
+		if( idSeq <= newId ) {
 			idSeq = newId + 1;
 			return newId;
 		}
