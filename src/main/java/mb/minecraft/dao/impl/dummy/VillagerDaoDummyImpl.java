@@ -95,7 +95,7 @@ public class VillagerDaoDummyImpl implements VillagerDao {
 
 	@Override
 	public void destroy() throws Exception {
-		System.out.println( "Shutting down VillagerDaoDummyImpl" );
+		logger.info( "Shutting down VillagerDaoDummyImpl" );
 	}
 
 

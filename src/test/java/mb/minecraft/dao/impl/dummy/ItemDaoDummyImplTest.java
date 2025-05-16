@@ -92,6 +92,7 @@ public class ItemDaoDummyImplTest {
 		Exception e = assertThrows( DaoConstraintException.class, () -> itemDao.insertOne( newItem ) );
 		assertNotNull( e );
 		assertEquals( "Dataset of type \"Item\" does not allow duplicate values for field \"ID\"", e.getMessage() );
+		logger.error( e.getMessage() );
 	}
 
 	@Test
@@ -104,6 +105,7 @@ public class ItemDaoDummyImplTest {
 		Exception e = assertThrows( DaoConstraintException.class, () -> itemDao.insertOne( newItem ) );
 		assertNotNull( e );
 		assertEquals( "Dataset of type \"Item\" does not allow duplicate values for field \"NAME\"", e.getMessage() );
+		logger.error( e.getMessage() );
 	}
 
 	@Test

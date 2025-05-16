@@ -87,6 +87,7 @@ public class VillageDaoDummyImplTest {
 		Exception e = assertThrows( DaoConstraintException.class, () -> villageDao.insertOne( newVillage ) );
 		assertNotNull( e );
 		assertEquals( "Dataset of type \"Village\" does not allow duplicate values for field \"ID\"", e.getMessage() );
+		logger.error( e.getMessage() );
 	}
 
 	@Test
@@ -98,6 +99,7 @@ public class VillageDaoDummyImplTest {
 		Exception e = assertThrows( DaoConstraintException.class, () -> villageDao.insertOne( newVillage ) );
 		assertNotNull( e );
 		assertEquals( "Dataset of type \"Village\" does not allow duplicate values for field \"NAME\"", e.getMessage() );
+		logger.error( e.getMessage() );
 	}
 
 	@Test
