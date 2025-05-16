@@ -74,15 +74,14 @@ public class VillageDaoDummyImpl implements VillageDao {
 		return newRow;
 	}
 
-//	update does not currently exist in the spec for VillageDao
-//	@Override
-//	public Village update( Village village ) {
-//		if( villageTable.containsKey( village.getId() ) ) {
-//			villageTable.put( village.getId(), village );
-//			return village;
-//		}
-//		return null;
-//	}
+	@Override
+	public Village update( Village village ) {
+		if( villageTable.containsKey( village.getId() ) ) {
+			villageTable.put( village.getId(), village );
+			return village;
+		}
+		return null;
+	}
 
 	@Override
 	public boolean deleteOne( Village village ) {

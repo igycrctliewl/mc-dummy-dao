@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>com.mikebro.mc</groupId>
 			<artifactId>mc-data</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
 		</dependency>
 
 		<dependency>

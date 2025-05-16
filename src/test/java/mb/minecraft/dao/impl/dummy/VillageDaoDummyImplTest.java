@@ -3,6 +3,7 @@ package mb.minecraft.dao.impl.dummy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -122,41 +123,39 @@ public class VillageDaoDummyImplTest {
 		assertTrue( village.getId().longValue() > 0 );
 	}
 
-//	update does not currently exist in the spec for VillageDao
-//	@Test
-//	public void testUpdateExisting() {
-//		Village village = villageDao.selectOneByName( "Emerald" );
-//		assertNotNull( village );
-//		Long villageId = village.getId();
-//
-//		String newImageSource = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/26/Emerald_JE3_BE3.png";
-//		village.setImageSource( newImageSource );
-//		villageDao.update( village );
-//
-//		Village finalVillage = villageDao.selectOneById( villageId );
-//		assertNotNull( finalVillage );
-//		assertEquals( newImageSource, finalVillage.getImageSource() );
-//	}
-//
-//	@Test
-//	public void testUpdateFailNonExisting() {
-//		Village village = Village.builder()
-//				.id( 1L )
-//				.name( "Red Dye" )
-//				.imageSource( "https://minecraft.wiki/images/Red_Dye_JE3_BE3.png" )
-//				.build();
-//		Village response = villageDao.update( village );
-//		assertNull( response );
-//
-//		Village finalVillage = villageDao.selectOneById( 1L );
-//		assertNull( finalVillage );
-//	}
+	@Test
+	public void testUpdateExisting() {
+		Village village = villageDao.selectOneByName( "Heart" );
+		assertNotNull( village );
+		Long villageId = village.getId();
+
+		String newName = "Heart of the Desert";
+		village.setName( newName );
+		villageDao.update( village );
+
+		Village finalVillage = villageDao.selectOneById( villageId );
+		assertNotNull( finalVillage );
+		assertEquals( newName, finalVillage.getName() );
+	}
+
+	@Test
+	public void testUpdateFailNonExisting() {
+		Village village = Village.builder()
+				.id( 1L )
+				.name( "The Igloo" )
+				.build();
+		Village response = villageDao.update( village );
+		assertNull( response );
+
+		Village finalVillage = villageDao.selectOneById( 1L );
+		assertNull( finalVillage );
+	}
 
 	@Test
 	public void testDeleteFail() {
 		Village deleteVillage = Village.builder()
 				.id( 1L )
-				.name( "Dirt" )
+				.name( "Earth" )
 				.build();
 		boolean wasDeleted = villageDao.deleteOne( deleteVillage );
 		assertFalse( wasDeleted );
