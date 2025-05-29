@@ -4,12 +4,13 @@
   <artifactId>mc-dummy-dao</artifactId>
   <name>mc-dummy-dao</name>
   <packaging>jar</packaging>
-  <version>1.0.1</version>
+  <version>1.1.0-SNAPSHOT</version>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mcDataVersion>1.1.0-SNAPSHOT</mcDataVersion>
 		<springVersion>5.3.15</springVersion>
 		<jacksonVersion>2.17.2</jacksonVersion>
 		<apacheLoggingVersion>2.17.1</apacheLoggingVersion>
@@ -20,7 +21,7 @@
 		<dependency>
 			<groupId>com.mikebro.mc</groupId>
 			<artifactId>mc-data</artifactId>
-			<version>1.0.1</version>
+			<version>${mcDataVersion}</version>
 		</dependency>
 
 		<dependency>

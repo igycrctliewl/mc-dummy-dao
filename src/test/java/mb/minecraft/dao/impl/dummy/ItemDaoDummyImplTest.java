@@ -31,9 +31,9 @@ public class ItemDaoDummyImplTest {
 
 	@Test
 	public void testSelectOneById() {
-		Item item = itemDao.selectOneById( 1007L );
+		Item item = itemDao.selectOneById( 1001L );
 		assertNotNull( item );
-		assertEquals( 1007L, item.getId().longValue() );
+		assertEquals( 1001L, item.getId().longValue() );
 		assertEquals( "Emerald", item.getName() );
 		assertEquals( "https://minecraft.wiki/images/Emerald_JE3_BE3.png", item.getImageSource() );
 	}
@@ -42,7 +42,7 @@ public class ItemDaoDummyImplTest {
 	public void testSelectOneByName() {
 		Item item = itemDao.selectOneByName( "Rotten Flesh" );
 		assertNotNull( item );
-		assertEquals( 1010L, item.getId().longValue() );
+		assertEquals( 1002L, item.getId().longValue() );
 		assertEquals( "Rotten Flesh", item.getName() );
 		assertEquals( "https://minecraft.wiki/images/Rotten_Flesh_JE3_BE2.png", item.getImageSource() );
 	}
@@ -51,13 +51,13 @@ public class ItemDaoDummyImplTest {
 	public void testSelectAll() {
 		List<Item> items = itemDao.selectAll();
 		assertNotNull( items );
-		assertEquals( 5, items.size() );
+		assertEquals( 18, items.size() );
 
 		Item v1 = items.stream()
 				.filter( v -> v.getName().equals( "Raw Beef" ) )
 				.findFirst()
 				.get();
-		assertEquals( 1011L, v1.getId().longValue() );
+		assertEquals( 1018L, v1.getId().longValue() );
 		assertEquals( "Raw Beef", v1.getName() );
 
 		Item v2 = items.stream()

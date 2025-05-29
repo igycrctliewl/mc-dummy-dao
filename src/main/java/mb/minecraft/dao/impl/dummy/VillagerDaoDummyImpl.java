@@ -131,12 +131,12 @@ public class VillagerDaoDummyImpl implements VillagerDao {
 
 	private List<Villager> generateMockData() {
 		List<Villager> list = new ArrayList<>();
+		list.add( generateObject( 73L, "Tyler", false, 213L, 102L ) );
 		list.add( generateObject( 699L, "Liam Z", true, 201L, 105L ) );
-		list.add( generateObject( 701L, "Gary", false, 214L, null ) );
-		list.add( generateObject( 702L, "Malcolm", false, 215L, null ) );
-		list.add( generateObject( 73L, "Tyler", false, 213L, null ) );
-		list.add( generateObject( 704L, "Dana", false, 211L, null ) );
-		list.add( generateObject( 705L, "Amy", false, 212L, null ) );
+		list.add( generateObject( 701L, "Gary", false, 214L, 103L ) );
+		list.add( generateObject( 702L, "Malcolm", false, 215L, 104L ) );
+		list.add( generateObject( 704L, "Dana", false, 211L, 102L ) );
+		list.add( generateObject( 705L, "Amy", false, 212L, 105L ) );
 		return list;
 	}
 

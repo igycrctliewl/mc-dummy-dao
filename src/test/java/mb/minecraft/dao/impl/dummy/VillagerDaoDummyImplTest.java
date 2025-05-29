@@ -48,7 +48,7 @@ public class VillagerDaoDummyImplTest {
 		assertEquals( "Malcolm", villager.getName() );
 		assertFalse( villager.isTagged() );
 		assertEquals( 215L, villager.getVillageId().longValue() );
-		assertNull( villager.getTypeId() );
+		assertEquals( 104L, villager.getTypeId().longValue() );
 	}
 
 	@Test

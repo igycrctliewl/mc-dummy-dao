@@ -131,11 +131,24 @@ public class ItemDaoDummyImpl implements ItemDao {
 
 	private List<Item> generateMockData() {
 		List<Item> list = new ArrayList<>();
-		list.add( generateObject( 1007L, "Emerald", "https://minecraft.wiki/images/Emerald_JE3_BE3.png" ) );
-		list.add( generateObject( 1008L, "Wheat", "https://minecraft.wiki/images/Wheat_JE2_BE2.png" ) );
+		list.add( generateObject( 1001L, "Emerald", "https://minecraft.wiki/images/Emerald_JE3_BE3.png" ) );
+		list.add( generateObject( 1002L, "Rotten Flesh", "https://minecraft.wiki/images/Rotten_Flesh_JE3_BE2.png" ) );
+		list.add( generateObject( 1003L, "Gold Ingot", "https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" ) );
+		list.add( generateObject( 1004L, "Redstone Dust", "https://minecraft.wiki/images/thumb/Redstone_Dust_JE2_BE2.png/150px-Redstone_Dust_JE2_BE2.png" ) );
+		list.add( generateObject( 1005L, "Lapis Lazuli", "https://minecraft.wiki/images/Lapis_Lazuli_JE2_BE2.png" ) );
+		list.add( generateObject( 1006L, "Ender Pearl", "https://minecraft.wiki/images/Ender_Pearl_JE3_BE2.png" ) );
+		list.add( generateObject( 1007L, "Glowstone", "https://minecraft.wiki/images/thumb/Glowstone_JE4_BE2.png/150px-Glowstone_JE4_BE2.png" ) );
+		list.add( generateObject( 1008L, "Bottle o' Enchanting", "https://minecraft.wiki/images/Bottle_o%27_Enchanting.gif" ) );
 		list.add( generateObject( 1009L, "Paper", "https://minecraft.wiki/images/Paper_JE2_BE2.png" ) );
-		list.add( generateObject( 1010L, "Rotten Flesh", "https://minecraft.wiki/images/Rotten_Flesh_JE3_BE2.png" ) );
-		list.add( generateObject( 1011L, "Raw Beef", "https://minecraft.wiki/images/Raw_Beef_JE4_BE3.png" ) );
+		list.add( generateObject( 1010L, "Enchanted Book", "https://minecraft.wiki/images/Enchanted_Book.gif" ) );
+		list.add( generateObject( 1011L, "Book", "https://minecraft.wiki/images/Book_JE2_BE2.png" ) );
+		list.add( generateObject( 1012L, "Compass", "https://minecraft.wiki/images/Compass_JE3_BE3.gif" ) );
+		list.add( generateObject( 1013L, "Bookshelf", "https://minecraft.wiki/images/thumb/Bookshelf_JE4_BE2.png/150px-Bookshelf_JE4_BE2.png" ) );
+		list.add( generateObject( 1014L, "Written Book", "https://minecraft.wiki/images/Written_Book_JE2_BE2.gif" ) );
+		list.add( generateObject( 1015L, "Clock", "https://minecraft.wiki/images/Clock_JE3_BE3.gif" ) );
+		list.add( generateObject( 1016L, "Glass", "https://minecraft.wiki/images/Glass_JE4_BE2.png" ) );
+		list.add( generateObject( 1017L, "Wheat", "https://minecraft.wiki/images/Wheat_JE2_BE2.png" ) );
+		list.add( generateObject( 1018L, "Raw Beef", "https://minecraft.wiki/images/Raw_Beef_JE4_BE3.png" ) );
 		return list;
 	}
 
