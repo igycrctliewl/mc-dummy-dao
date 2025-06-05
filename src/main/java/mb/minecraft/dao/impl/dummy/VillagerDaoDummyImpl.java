@@ -25,8 +25,8 @@ public class VillagerDaoDummyImpl implements VillagerDao {
 
 	private static final Logger logger = LogManager.getLogger( VillagerDaoDummyImpl.class );
 
-	private Map<Long,Villager> villagerTable;
-	private long idSeq;
+	private Map<Integer,Villager> villagerTable;
+	private int idSeq;
 
 
 	@PostConstruct
@@ -38,14 +38,14 @@ public class VillagerDaoDummyImpl implements VillagerDao {
 	private VillagerDaoDummyImpl() {
 		logger.info( "VillagerDaoDummyImpl constructor" );
 		this.villagerTable = new HashMap<>();
-		this.idSeq = 0L;
+		this.idSeq = 0;
 		for( Villager v : generateMockData() ) {
 			insertOne( v );
 		}
 	}
 
 	@Override
-	public Villager selectOneById( Long id ) {
+	public Villager selectOneById( int id ) {
 		return villagerTable.get( id );
 	}
 
@@ -100,8 +100,8 @@ public class VillagerDaoDummyImpl implements VillagerDao {
 
 
 
-	private long deriveId( Villager newRow ) {
-		long newId = newRow.getId() != null ? newRow.getId() : 0;
+	private int deriveId( Villager newRow ) {
+		int newId = newRow.getId() != null ? newRow.getId() : 0;
 		if( idSeq <= newId ) {
 			idSeq = newId + 1;
 			return newId;
@@ -131,16 +131,16 @@ public class VillagerDaoDummyImpl implements VillagerDao {
 
 	private List<Villager> generateMockData() {
 		List<Villager> list = new ArrayList<>();
-		list.add( generateObject( 73L, "Tyler", false, 213L, 102L ) );
-		list.add( generateObject( 699L, "Liam Z", true, 201L, 105L ) );
-		list.add( generateObject( 701L, "Gary", false, 214L, 103L ) );
-		list.add( generateObject( 702L, "Malcolm", false, 215L, 104L ) );
-		list.add( generateObject( 704L, "Dana", false, 211L, 102L ) );
-		list.add( generateObject( 705L, "Amy", false, 212L, 105L ) );
+		list.add( generateObject( 73, "Tyler", false, 213, 102 ) );
+		list.add( generateObject( 699, "Liam Z", true, 201, 105 ) );
+		list.add( generateObject( 701, "Gary", false, 214, 103 ) );
+		list.add( generateObject( 702, "Malcolm", false, 215, 104 ) );
+		list.add( generateObject( 704, "Dana", false, 211, 102 ) );
+		list.add( generateObject( 705, "Amy", false, 212, 105 ) );
 		return list;
 	}
 
-	private Villager generateObject( Long id, String name, boolean isTagged, Long villageId, Long typeId ) {
+	private Villager generateObject( Integer id, String name, boolean isTagged, Integer villageId, Integer typeId ) {
 		return Villager.builder()
 				.id( id )
 				.name( name )

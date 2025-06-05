@@ -36,8 +36,8 @@ public class VillagerTypeDaoDummyImpl implements VillagerTypeDao {
 	VillagerDao villagerDao;
 
 
-	private Map<Long,VillagerType> villagerTypeTable;
-	private long idSeq;
+	private Map<Integer,VillagerType> villagerTypeTable;
+	private int idSeq;
 
 
 	@PostConstruct
@@ -49,14 +49,14 @@ public class VillagerTypeDaoDummyImpl implements VillagerTypeDao {
 	private VillagerTypeDaoDummyImpl() {
 		logger.info( "VillagerTypeDaoDummyImpl constructor" );
 		this.villagerTypeTable = new HashMap<>();
-		this.idSeq = 0L;
+		this.idSeq = 0;
 		for( VillagerType type : generateMockData() ) {
 			insertOne( type );
 		}
 	}
 
 	@Override
-	public VillagerType selectOneById( Long id ) {
+	public VillagerType selectOneById( int id ) {
 		return villagerTypeTable.get( id );
 	}
 
@@ -114,8 +114,8 @@ public class VillagerTypeDaoDummyImpl implements VillagerTypeDao {
 
 
 
-	private long deriveId( VillagerType newRow ) {
-		long newId = newRow.getId() != null ? newRow.getId() : 0;
+	private int deriveId( VillagerType newRow ) {
+		int newId = newRow.getId() != null ? newRow.getId() : 0;
 		if( idSeq <= newId ) {
 			idSeq = newId + 1;
 			return newId;
@@ -141,9 +141,9 @@ public class VillagerTypeDaoDummyImpl implements VillagerTypeDao {
 		}
 	}
 
-	private void forceEntityId( VillagerType row, long id ) {
+	private void forceEntityId( VillagerType row, int id ) {
 		try {
-			Method setIdMethod = VillagerType.class.getDeclaredMethod( "setId", Long.class );
+			Method setIdMethod = VillagerType.class.getDeclaredMethod( "setId", Integer.class );
 			setIdMethod.setAccessible( true );
 			setIdMethod.invoke( row, id );
 		} catch (NoSuchMethodException e) {
@@ -163,15 +163,15 @@ public class VillagerTypeDaoDummyImpl implements VillagerTypeDao {
 
 	private List<VillagerType> generateMockData() {
 		List<VillagerType> list = new ArrayList<>();
-		list.add( generateObject( 101L, "Librarian" ) );
-		list.add( generateObject( 102L, "Leatherworker" ) );
-		list.add( generateObject( 103L, "Shepherd" ) );
-		list.add( generateObject( 104L, "Butcher" ) );
-		list.add( generateObject( 105L, "Cleric" ) );
+		list.add( generateObject( 101, "Librarian" ) );
+		list.add( generateObject( 102, "Leatherworker" ) );
+		list.add( generateObject( 103, "Shepherd" ) );
+		list.add( generateObject( 104, "Butcher" ) );
+		list.add( generateObject( 105, "Cleric" ) );
 		return list;
 	}
 
-	private VillagerType generateObject( Long id, String profession ) {
+	private VillagerType generateObject( Integer id, String profession ) {
 		return VillagerType.builder()
 				.id( id )
 				.profession( profession )

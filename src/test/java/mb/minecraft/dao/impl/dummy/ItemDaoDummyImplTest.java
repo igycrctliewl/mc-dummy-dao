@@ -31,9 +31,9 @@ public class ItemDaoDummyImplTest {
 
 	@Test
 	public void testSelectOneById() {
-		Item item = itemDao.selectOneById( 1001L );
+		Item item = itemDao.selectOneById( 1001 );
 		assertNotNull( item );
-		assertEquals( 1001L, item.getId().longValue() );
+		assertEquals( 1001, item.getId().intValue() );
 		assertEquals( "Emerald", item.getName() );
 		assertEquals( "https://minecraft.wiki/images/Emerald_JE3_BE3.png", item.getImageSource() );
 	}
@@ -42,7 +42,7 @@ public class ItemDaoDummyImplTest {
 	public void testSelectOneByName() {
 		Item item = itemDao.selectOneByName( "Rotten Flesh" );
 		assertNotNull( item );
-		assertEquals( 1002L, item.getId().longValue() );
+		assertEquals( 1002, item.getId().intValue() );
 		assertEquals( "Rotten Flesh", item.getName() );
 		assertEquals( "https://minecraft.wiki/images/Rotten_Flesh_JE3_BE2.png", item.getImageSource() );
 	}
@@ -57,27 +57,27 @@ public class ItemDaoDummyImplTest {
 				.filter( v -> v.getName().equals( "Raw Beef" ) )
 				.findFirst()
 				.get();
-		assertEquals( 1018L, v1.getId().longValue() );
+		assertEquals( 1018, v1.getId().intValue() );
 		assertEquals( "Raw Beef", v1.getName() );
 
 		Item v2 = items.stream()
 				.filter( v -> v.getName().equals( "Paper" ) )
 				.findFirst()
 				.get();
-		assertEquals( 1009L, v2.getId().longValue() );
+		assertEquals( 1009, v2.getId().intValue() );
 		assertEquals( "Paper", v2.getName() );
 	}
 
 	@Test
 	public void testInsertOneSuccess() {
 		Item newItem = Item.builder()
-				.id( 10L )
+				.id( 10 )
 				.name( "Block of Emerald" )
 				.imageSource( "https://minecraft.wiki/images/Block_of_Emerald_JE4_BE3.png" )
 				.build();
 		Item item = itemDao.insertOne( newItem );
 		assertNotNull( item );
-		assertEquals( 10L, item.getId().longValue() );
+		assertEquals( 10, item.getId().intValue() );
 		assertEquals( "Block of Emerald", item.getName() );
 		assertEquals( "https://minecraft.wiki/images/Block_of_Emerald_JE4_BE3.png", item.getImageSource() );
 	}
@@ -85,7 +85,7 @@ public class ItemDaoDummyImplTest {
 	@Test
 	public void testInsertOneIdFail() {
 		Item newItem = Item.builder()
-				.id( 1007L )
+				.id( 1007 )
 				.name( "Block of Emerald" )
 				.imageSource( "https://minecraft.wiki/images/Block_of_Emerald_JE4_BE3.png" )
 				.build();
@@ -98,7 +98,7 @@ public class ItemDaoDummyImplTest {
 	@Test
 	public void testInsertOneNameFail() {
 		Item newItem = Item.builder()
-				.id( 5L )
+				.id( 5 )
 				.name( "Wheat" )
 				.imageSource( "https://minecraft.wiki/images/Wheat_JE4_BE3.png" )
 				.build();
@@ -111,13 +111,13 @@ public class ItemDaoDummyImplTest {
 	@Test
 	public void testInsertOneSpecifiedId() {
 		Item newItem = Item.builder()
-				.id( 90000L )
+				.id( 90000 )
 				.name( "Dirt" )
 				.imageSource( "https://minecraft.wiki/images/Dirt_JE2_BE2.png" )
 				.build();
 		Item item = itemDao.insertOne( newItem );
 		assertNotNull( item );
-		assertEquals( 90000L, item.getId().longValue() );
+		assertEquals( 90000, item.getId().intValue() );
 		assertEquals( "Dirt", item.getName() );
 		assertEquals( "https://minecraft.wiki/images/Dirt_JE2_BE2.png", item.getImageSource() );
 	}
@@ -131,14 +131,14 @@ public class ItemDaoDummyImplTest {
 		Item item = itemDao.insertOne( newItem );
 		assertNotNull( item );
 		assertNotNull( item.getId() );
-		assertTrue( item.getId().longValue() > 0 );
+		assertTrue( item.getId().intValue() > 0 );
 	}
 
 	@Test
 	public void testUpdateExisting() {
 		Item item = itemDao.selectOneByName( "Emerald" );
 		assertNotNull( item );
-		Long itemId = item.getId();
+		int itemId = item.getId();
 
 		String newImageSource = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/26/Emerald_JE3_BE3.png";
 		item.setImageSource( newImageSource );
@@ -152,21 +152,21 @@ public class ItemDaoDummyImplTest {
 	@Test
 	public void testUpdateFailNonExisting() {
 		Item item = Item.builder()
-				.id( 1L )
+				.id( 1 )
 				.name( "Red Dye" )
 				.imageSource( "https://minecraft.wiki/images/Red_Dye_JE3_BE3.png" )
 				.build();
 		Item response = itemDao.update( item );
 		assertNull( response );
 
-		Item finalItem = itemDao.selectOneById( 1L );
+		Item finalItem = itemDao.selectOneById( 1 );
 		assertNull( finalItem );
 	}
 
 	@Test
 	public void testDeleteFail() {
 		Item deleteItem = Item.builder()
-				.id( 1L )
+				.id( 1 )
 				.name( "Dirt" )
 				.build();
 		boolean wasDeleted = itemDao.deleteOne( deleteItem );

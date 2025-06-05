@@ -18,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import mb.minecraft.dao.DaoConstraintException;
-import mb.minecraft.model.Item;
 import mb.minecraft.model.Trade;
 import mb.minecraft.model.Villager;
 
@@ -34,10 +33,10 @@ public class TradeDaoDummyImplTest {
 
 	@Test
 	public void testSelectOneById() {
-		Trade trade = tradeDao.selectOneById( 15L );
+		Trade trade = tradeDao.selectOneById( 15 );
 		assertNotNull( trade );
-		assertEquals( 15L, trade.getId().longValue() );
-		assertEquals( 705L, trade.getVillagerId().longValue() );
+		assertEquals( 15, trade.getId().intValue() );
+		assertEquals( 705, trade.getVillagerId().intValue() );
 		assertEquals( 3, trade.getTradeSeqno().intValue() );
 	}
 
@@ -48,31 +47,31 @@ public class TradeDaoDummyImplTest {
 		assertEquals( 15, trades.size() );
 
 		Trade t1 = trades.stream()
-				.filter( v -> v.getId().equals( 3L ) )
+				.filter( v -> v.getId().equals( 3 ) )
 				.findFirst()
 				.get();
-		assertEquals( 3L, t1.getId().longValue() );
-		assertEquals( 701L, t1.getVillagerId().longValue() );
+		assertEquals( 3, t1.getId().intValue() );
+		assertEquals( 701, t1.getVillagerId().intValue() );
 		assertEquals( 1, t1.getTradeSeqno().intValue() );
 
 		Trade t2 = trades.stream()
-				.filter( v -> v.getId().equals( 9L ) )
+				.filter( v -> v.getId().equals( 9 ) )
 				.findFirst()
 				.get();
-		assertEquals( 9L, t2.getId().longValue() );
-		assertEquals( 73L, t2.getVillagerId().longValue() );
+		assertEquals( 9, t2.getId().intValue() );
+		assertEquals( 73, t2.getVillagerId().intValue() );
 		assertEquals( 1, t2.getTradeSeqno().intValue() );
 	}
 
 	@Test
 	public void testSelectAllForVillager() {
-		List<Trade> trades = tradeDao.selectAll( Villager.builder().id( 73L ).build() );
+		List<Trade> trades = tradeDao.selectAll( Villager.builder().id( 73 ).build() );
 		assertNotNull( trades );
 		assertEquals( 4, trades.size() );
 
 		Trade t1 = trades.get(0);
-		assertEquals( 9L, t1.getId().longValue() );
-		assertEquals( 73L, t1.getVillagerId().longValue() );
+		assertEquals( 9, t1.getId().intValue() );
+		assertEquals( 73, t1.getVillagerId().intValue() );
 		assertEquals( 1, t1.getTradeSeqno().intValue() );
 	}
 
@@ -81,13 +80,13 @@ public class TradeDaoDummyImplTest {
 		int count = tradeDao.selectAll().size();
 
 		Trade newTrade = Trade.builder()
-				.villagerId( 1111L )
+				.villagerId( 1111 )
 				.tradeSeqno( 1 )
 				.build();
 		Trade trade = tradeDao.insertOne( newTrade );
 		assertNotNull( trade );
-		assertTrue( trade.getId().longValue() > 0 );
-		assertEquals( 1111L, trade.getVillagerId().longValue() );
+		assertTrue( trade.getId().intValue() > 0 );
+		assertEquals( 1111, trade.getVillagerId().intValue() );
 		assertEquals( 1, trade.getTradeSeqno().intValue() );
 		assertEquals( count + 1, tradeDao.selectAll().size() );
 	}
@@ -95,8 +94,8 @@ public class TradeDaoDummyImplTest {
 	@Test
 	public void testInsertOneIdFail() {
 		Trade newTrade = Trade.builder()
-				.id( 1L )
-				.villagerId( 1111L )
+				.id( 1 )
+				.villagerId( 1111 )
 				.tradeSeqno( 1 )
 				.build();
 		Exception e = assertThrows( DaoConstraintException.class, () -> tradeDao.insertOne( newTrade ) );
@@ -108,14 +107,14 @@ public class TradeDaoDummyImplTest {
 	@Test
 	public void testInsertOneSpecifiedId() {
 		Trade newTrade = Trade.builder()
-				.id( 90000L )
-				.villagerId( 1111L )
+				.id( 90000 )
+				.villagerId( 1111 )
 				.tradeSeqno( 1 )
 				.build();
 		Trade trade = tradeDao.insertOne( newTrade );
 		assertNotNull( trade );
-		assertEquals( 90000L, trade.getId().longValue() );
-		assertEquals( 1111L, trade.getVillagerId().longValue() );
+		assertEquals( 90000, trade.getId().intValue() );
+		assertEquals( 1111, trade.getVillagerId().intValue() );
 		assertEquals( 1, trade.getTradeSeqno().intValue() );
 	}
 
@@ -125,12 +124,12 @@ public class TradeDaoDummyImplTest {
 
 		List<Trade> newTrades = Arrays.asList(
 			Trade.builder()
-				.villagerId( 1L )
+				.villagerId( 1 )
 				.tradeSeqno( 1 )
 				.build()
 			,
 			Trade.builder()
-				.villagerId( 1L )
+				.villagerId( 1 )
 				.tradeSeqno( 2 )
 				.build()
 		);
@@ -142,37 +141,37 @@ public class TradeDaoDummyImplTest {
 
 	@Test
 	public void testUpdateExisting() {
-		Trade trade = tradeDao.selectOneById( 12L );
+		Trade trade = tradeDao.selectOneById( 12 );
 		assertNotNull( trade );
-		Long tradeId = trade.getId();
+		int tradeId = trade.getId();
 
-		trade.setVillagerId( 703L );
+		trade.setVillagerId( 703 );
 		trade.setTradeSeqno( 1 );
 		tradeDao.update( trade );
 
 		Trade finalTrade = tradeDao.selectOneById( tradeId );
 		assertNotNull( finalTrade );
-		assertEquals( 703L, finalTrade.getVillagerId().longValue() );
+		assertEquals( 703, finalTrade.getVillagerId().intValue() );
 	}
 
 	@Test
 	public void testUpdateFailNonExisting() {
 		Trade trade = Trade.builder()
-				.id( 1001L )
-				.villagerId( 1001L )
+				.id( 1001 )
+				.villagerId( 1001 )
 				.tradeSeqno( 1001 )
 				.build();
 		Trade response = tradeDao.update( trade );
 		assertNull( response );
 
-		Trade finalTrade = tradeDao.selectOneById( 1001L );
+		Trade finalTrade = tradeDao.selectOneById( 1001 );
 		assertNull( finalTrade );
 	}
 
 	@Test
 	public void testDeleteFail() {
 		Trade deleteTrade = Trade.builder()
-				.id( 1001L )
+				.id( 1001 )
 				.build();
 		boolean wasDeleted = tradeDao.deleteOne( deleteTrade );
 		assertFalse( wasDeleted );
@@ -182,7 +181,7 @@ public class TradeDaoDummyImplTest {
 	public void testDeleteSuccess() {
 		int count = tradeDao.selectAll().size();
 		
-		Trade trade = tradeDao.selectOneById( 15L );
+		Trade trade = tradeDao.selectOneById( 15 );
 		assertNotNull( trade );
 
 		boolean wasDeleted = tradeDao.deleteOne( trade );

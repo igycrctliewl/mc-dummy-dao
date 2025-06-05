@@ -40,72 +40,72 @@ public class TradeItemDaoDummyImplTest {
 		assertEquals( 31, tradeItems.size() );
 
 		TradeItem ti1 = tradeItems.get(2);
-		assertEquals( 2L, ti1.getTradeId().longValue() );
+		assertEquals( 2, ti1.getTradeId().intValue() );
 		assertEquals( OFFER, ti1.getOfferRequire() );
 		assertEquals( 1, ti1.getSeqno().intValue() );
 		assertEquals( 1, ti1.getQuantity().intValue() );
-		assertEquals( 1010L, ti1.getItemId().longValue() );
+		assertEquals( 1010, ti1.getItemId().intValue() );
 		assertEquals( "Punch I", ti1.getMemo() );
 	}
 
 	@Test
 	public void testSelectAllForTrade() {
-		List<TradeItem> tradeItems = tradeItemDao.selectAll( Trade.builder().id( 9L ).build() );
+		List<TradeItem> tradeItems = tradeItemDao.selectAll( Trade.builder().id( 9 ).build() );
 		assertNotNull( tradeItems );
 		assertEquals( 2, tradeItems.size() );
 
 		TradeItem ti1 = tradeItems.get(0);
 		TradeItem ti2 = tradeItems.get(1);
 
-		assertEquals( 9L, ti1.getTradeId().longValue() );
+		assertEquals( 9, ti1.getTradeId().intValue() );
 		assertEquals( OFFER, ti1.getOfferRequire() );
 		assertEquals( 1, ti1.getSeqno().intValue() );
 		assertEquals( 1, ti1.getQuantity().intValue() );
-		assertEquals( 1001L, ti1.getItemId().longValue() );
+		assertEquals( 1001, ti1.getItemId().intValue() );
 		assertEquals( null, ti1.getMemo() );
 
-		assertEquals( 9L, ti2.getTradeId().longValue() );
+		assertEquals( 9, ti2.getTradeId().intValue() );
 		assertEquals( REQUIRE, ti2.getOfferRequire() );
 		assertEquals( 1, ti2.getSeqno().intValue() );
 		assertEquals( 40, ti2.getQuantity().intValue() );
-		assertEquals( 1002L, ti2.getItemId().longValue() );
+		assertEquals( 1002, ti2.getItemId().intValue() );
 		assertEquals( null, ti2.getMemo() );
 	}
 
 	@Test
 	public void testSelectAllForItem() {
-		List<TradeItem> tradeItems = tradeItemDao.selectAll( Item.builder().id( 1001L ).build() );
+		List<TradeItem> tradeItems = tradeItemDao.selectAll( Item.builder().id( 1001 ).build() );
 		assertNotNull( tradeItems );
 		assertEquals( 15, tradeItems.size() );
 	}
 
 	@Test
 	public void testInsertOneSuccess() {
-		Trade tradeKey = Trade.builder().id( 6L ).build();
+		Trade tradeKey = Trade.builder().id( 6 ).build();
 		int count = tradeItemDao.selectAll( tradeKey ).size();
 
 		TradeItem newItem = TradeItem.builder()
-				.tradeId( 6L )
+				.tradeId( 6 )
 				.offerRequire( REQUIRE )
 				.seqno( 2 )
 				.quantity( 1 )
-				.itemId( 1010L )
+				.itemId( 1010 )
 				.memo( "sweetener" )
 				.build();
 		TradeItem item = tradeItemDao.insertOne( newItem );
 		assertNotNull( item );
-		assertEquals( 6L, item.getTradeId().longValue() );
+		assertEquals( 6, item.getTradeId().intValue() );
 		assertEquals( count + 1, tradeItemDao.selectAll( tradeKey ).size() );
 	}
 
 	@Test
 	public void testInsertOneIdFail() {
 		TradeItem newItem = TradeItem.builder()
-				.tradeId( 1L )
+				.tradeId( 1 )
 				.offerRequire( OFFER )
 				.seqno( 1 )
 				.quantity( 1 )
-				.itemId( 1003L )
+				.itemId( 1003 )
 				.memo( "greedy" )
 				.build();
 		Exception e = assertThrows( DaoConstraintException.class, () -> tradeItemDao.insertOne( newItem ) );
@@ -120,19 +120,19 @@ public class TradeItemDaoDummyImplTest {
 
 		List<TradeItem> newItems = Arrays.asList(
 			TradeItem.builder()
-				.tradeId( 100L )
+				.tradeId( 100 )
 				.offerRequire( OFFER )
 				.seqno( 1 )
 				.quantity( 1 )
-				.itemId( 1001L )
+				.itemId( 1001 )
 				.build()
 			,
 			TradeItem.builder()
-				.tradeId( 100L )
+				.tradeId( 100 )
 				.offerRequire( REQUIRE )
 				.seqno( 1 )
 				.quantity( 10 )
-				.itemId( 1010L )
+				.itemId( 1010 )
 				.build()
 		);
 		List<TradeItem> items = tradeItemDao.insert( newItems );
@@ -144,7 +144,7 @@ public class TradeItemDaoDummyImplTest {
 
 	@Test
 	public void testUpdateExisting() {
-		List<TradeItem> tradeItems = tradeItemDao.selectAll( Trade.builder().id( 9L ).build() );
+		List<TradeItem> tradeItems = tradeItemDao.selectAll( Trade.builder().id( 9 ).build() );
 		TradeItem tradeItem = tradeItems.get(1);
 		assertNotNull( tradeItem );
 
@@ -154,13 +154,13 @@ public class TradeItemDaoDummyImplTest {
 
 		assertNotNull( finalItem );
 		assertEquals( newQuantity, finalItem.getQuantity().intValue() );
-		assertEquals( tradeItems.size(), tradeItemDao.selectAll( Trade.builder().id( 9L ).build() ).size() );
+		assertEquals( tradeItems.size(), tradeItemDao.selectAll( Trade.builder().id( 9 ).build() ).size() );
 	}
 
 	@Test
 	public void testUpdateFailNonExisting() {
 		TradeItem item = TradeItem.builder()
-				.tradeId( 1L )
+				.tradeId( 1 )
 				.offerRequire( OFFER )
 				.seqno( 3 )
 				.quantity( 10 )
@@ -169,7 +169,7 @@ public class TradeItemDaoDummyImplTest {
 		assertNull( response );
 
 		item = TradeItem.builder()
-				.tradeId( 100L )
+				.tradeId( 100 )
 				.offerRequire( OFFER )
 				.seqno( 1 )
 				.quantity( 10 )
@@ -178,7 +178,7 @@ public class TradeItemDaoDummyImplTest {
 		assertNull( response );
 
 		item = TradeItem.builder()
-				.tradeId( 1L )
+				.tradeId( 1 )
 				.offerRequire( null )
 				.seqno( 1 )
 				.quantity( 10 )
@@ -191,7 +191,7 @@ public class TradeItemDaoDummyImplTest {
 	public void testDeleteSuccess() {
 		int count = tradeItemDao.selectAll().size();
 
-		List<TradeItem> tradeItems = tradeItemDao.selectAll( Trade.builder().id( 9L ).build() );
+		List<TradeItem> tradeItems = tradeItemDao.selectAll( Trade.builder().id( 9 ).build() );
 		TradeItem tradeItem = tradeItems.get(1);
 		assertNotNull( tradeItem );
 

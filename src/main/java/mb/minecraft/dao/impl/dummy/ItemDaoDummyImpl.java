@@ -25,8 +25,8 @@ public class ItemDaoDummyImpl implements ItemDao {
 
 	private static final Logger logger = LogManager.getLogger( ItemDaoDummyImpl.class );
 
-	private Map<Long,Item> itemTable;
-	private long idSeq;
+	private Map<Integer,Item> itemTable;
+	private int idSeq;
 
 
 	@PostConstruct
@@ -38,14 +38,14 @@ public class ItemDaoDummyImpl implements ItemDao {
 	private ItemDaoDummyImpl() {
 		logger.info( "ItemDaoDummyImpl constructor" );
 		this.itemTable = new HashMap<>();
-		this.idSeq = 0L;
+		this.idSeq = 0;
 		for( Item item : generateMockData() ) {
 			insertOne( item );
 		}
 	}
 
 	@Override
-	public Item selectOneById( Long id ) {
+	public Item selectOneById( int id ) {
 		return itemTable.get( id );
 	}
 
@@ -100,8 +100,8 @@ public class ItemDaoDummyImpl implements ItemDao {
 
 
 
-	private long deriveId( Item newRow ) {
-		long newId = newRow.getId() != null ? newRow.getId() : 0;
+	private int deriveId( Item newRow ) {
+		int newId = newRow.getId() != null ? newRow.getId() : 0;
 		if( idSeq <= newId ) {
 			idSeq = newId + 1;
 			return newId;
@@ -131,28 +131,28 @@ public class ItemDaoDummyImpl implements ItemDao {
 
 	private List<Item> generateMockData() {
 		List<Item> list = new ArrayList<>();
-		list.add( generateObject( 1001L, "Emerald", "https://minecraft.wiki/images/Emerald_JE3_BE3.png" ) );
-		list.add( generateObject( 1002L, "Rotten Flesh", "https://minecraft.wiki/images/Rotten_Flesh_JE3_BE2.png" ) );
-		list.add( generateObject( 1003L, "Gold Ingot", "https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" ) );
-		list.add( generateObject( 1004L, "Redstone Dust", "https://minecraft.wiki/images/thumb/Redstone_Dust_JE2_BE2.png/150px-Redstone_Dust_JE2_BE2.png" ) );
-		list.add( generateObject( 1005L, "Lapis Lazuli", "https://minecraft.wiki/images/Lapis_Lazuli_JE2_BE2.png" ) );
-		list.add( generateObject( 1006L, "Ender Pearl", "https://minecraft.wiki/images/Ender_Pearl_JE3_BE2.png" ) );
-		list.add( generateObject( 1007L, "Glowstone", "https://minecraft.wiki/images/thumb/Glowstone_JE4_BE2.png/150px-Glowstone_JE4_BE2.png" ) );
-		list.add( generateObject( 1008L, "Bottle o' Enchanting", "https://minecraft.wiki/images/Bottle_o%27_Enchanting.gif" ) );
-		list.add( generateObject( 1009L, "Paper", "https://minecraft.wiki/images/Paper_JE2_BE2.png" ) );
-		list.add( generateObject( 1010L, "Enchanted Book", "https://minecraft.wiki/images/Enchanted_Book.gif" ) );
-		list.add( generateObject( 1011L, "Book", "https://minecraft.wiki/images/Book_JE2_BE2.png" ) );
-		list.add( generateObject( 1012L, "Compass", "https://minecraft.wiki/images/Compass_JE3_BE3.gif" ) );
-		list.add( generateObject( 1013L, "Bookshelf", "https://minecraft.wiki/images/thumb/Bookshelf_JE4_BE2.png/150px-Bookshelf_JE4_BE2.png" ) );
-		list.add( generateObject( 1014L, "Written Book", "https://minecraft.wiki/images/Written_Book_JE2_BE2.gif" ) );
-		list.add( generateObject( 1015L, "Clock", "https://minecraft.wiki/images/Clock_JE3_BE3.gif" ) );
-		list.add( generateObject( 1016L, "Glass", "https://minecraft.wiki/images/Glass_JE4_BE2.png" ) );
-		list.add( generateObject( 1017L, "Wheat", "https://minecraft.wiki/images/Wheat_JE2_BE2.png" ) );
-		list.add( generateObject( 1018L, "Raw Beef", "https://minecraft.wiki/images/Raw_Beef_JE4_BE3.png" ) );
+		list.add( generateObject( 1001, "Emerald", "https://minecraft.wiki/images/Emerald_JE3_BE3.png" ) );
+		list.add( generateObject( 1002, "Rotten Flesh", "https://minecraft.wiki/images/Rotten_Flesh_JE3_BE2.png" ) );
+		list.add( generateObject( 1003, "Gold Ingot", "https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" ) );
+		list.add( generateObject( 1004, "Redstone Dust", "https://minecraft.wiki/images/thumb/Redstone_Dust_JE2_BE2.png/150px-Redstone_Dust_JE2_BE2.png" ) );
+		list.add( generateObject( 1005, "Lapis Lazuli", "https://minecraft.wiki/images/Lapis_Lazuli_JE2_BE2.png" ) );
+		list.add( generateObject( 1006, "Ender Pearl", "https://minecraft.wiki/images/Ender_Pearl_JE3_BE2.png" ) );
+		list.add( generateObject( 1007, "Glowstone", "https://minecraft.wiki/images/thumb/Glowstone_JE4_BE2.png/150px-Glowstone_JE4_BE2.png" ) );
+		list.add( generateObject( 1008, "Bottle o' Enchanting", "https://minecraft.wiki/images/Bottle_o%27_Enchanting.gif" ) );
+		list.add( generateObject( 1009, "Paper", "https://minecraft.wiki/images/Paper_JE2_BE2.png" ) );
+		list.add( generateObject( 1010, "Enchanted Book", "https://minecraft.wiki/images/Enchanted_Book.gif" ) );
+		list.add( generateObject( 1011, "Book", "https://minecraft.wiki/images/Book_JE2_BE2.png" ) );
+		list.add( generateObject( 1012, "Compass", "https://minecraft.wiki/images/Compass_JE3_BE3.gif" ) );
+		list.add( generateObject( 1013, "Bookshelf", "https://minecraft.wiki/images/thumb/Bookshelf_JE4_BE2.png/150px-Bookshelf_JE4_BE2.png" ) );
+		list.add( generateObject( 1014, "Written Book", "https://minecraft.wiki/images/Written_Book_JE2_BE2.gif" ) );
+		list.add( generateObject( 1015, "Clock", "https://minecraft.wiki/images/Clock_JE3_BE3.gif" ) );
+		list.add( generateObject( 1016, "Glass", "https://minecraft.wiki/images/Glass_JE4_BE2.png" ) );
+		list.add( generateObject( 1017, "Wheat", "https://minecraft.wiki/images/Wheat_JE2_BE2.png" ) );
+		list.add( generateObject( 1018, "Raw Beef", "https://minecraft.wiki/images/Raw_Beef_JE4_BE3.png" ) );
 		return list;
 	}
 
-	private Item generateObject( Long id, String name, String imageSource ) {
+	private Item generateObject( Integer id, String name, String imageSource ) {
 		return Item.builder()
 				.id( id )
 				.name( name )

@@ -31,24 +31,24 @@ public class VillagerDaoDummyImplTest {
 
 	@Test
 	public void testSelectOneById() {
-		Villager villager = villagerDao.selectOneById( 699L );
+		Villager villager = villagerDao.selectOneById( 699 );
 		assertNotNull( villager );
-		assertEquals( 699L, villager.getId().longValue() );
+		assertEquals( 699, villager.getId().intValue() );
 		assertEquals( "Liam Z", villager.getName() );
 		assertTrue( villager.isTagged() );
-		assertEquals( 201L, villager.getVillageId().longValue() );
-		assertEquals( 105L, villager.getTypeId().longValue() );
+		assertEquals( 201, villager.getVillageId().intValue() );
+		assertEquals( 105, villager.getTypeId().intValue() );
 	}
 
 	@Test
 	public void testSelectOneByName() {
 		Villager villager = villagerDao.selectOneByName( "Malcolm" );
 		assertNotNull( villager );
-		assertEquals( 702L, villager.getId().longValue() );
+		assertEquals( 702, villager.getId().intValue() );
 		assertEquals( "Malcolm", villager.getName() );
 		assertFalse( villager.isTagged() );
-		assertEquals( 215L, villager.getVillageId().longValue() );
-		assertEquals( 104L, villager.getTypeId().longValue() );
+		assertEquals( 215, villager.getVillageId().intValue() );
+		assertEquals( 104, villager.getTypeId().intValue() );
 	}
 
 	@Test
@@ -61,31 +61,31 @@ public class VillagerDaoDummyImplTest {
 				.filter( v -> v.getName().equals( "Amy" ) )
 				.findFirst()
 				.get();
-		assertEquals( 705L, v1.getId().longValue() );
+		assertEquals( 705, v1.getId().intValue() );
 
 		Villager v2 = villagers.stream()
 				.filter( v -> v.getName().equals( "Gary" ) )
 				.findFirst()
 				.get();
-		assertEquals( 701L, v2.getId().longValue() );
+		assertEquals( 701, v2.getId().intValue() );
 	}
 
 	@Test
 	public void testInsertOneSuccess() {
 		Villager newVillager = Villager.builder()
-				.id( 10L )
+				.id( 10 )
 				.name( "Mikebro" )
 				.build();
 		Villager villager = villagerDao.insertOne( newVillager );
 		assertNotNull( villager );
-		assertEquals( 10L, villager.getId().longValue() );
+		assertEquals( 10, villager.getId().intValue() );
 		assertEquals( "Mikebro", villager.getName() );
 	}
 
 	@Test
 	public void testInsertOneIdFail() {
 		Villager newVillager = Villager.builder()
-				.id( 699L )
+				.id( 699 )
 				.name( "Brock Samson" )
 				.build();
 		Exception e = assertThrows( DaoConstraintException.class, () -> villagerDao.insertOne( newVillager ) );
@@ -97,7 +97,7 @@ public class VillagerDaoDummyImplTest {
 	@Test
 	public void testInsertOneNameFail() {
 		Villager newVillager = Villager.builder()
-				.id( 5L )
+				.id( 5 )
 				.name( "Tyler" )
 				.build();
 		Exception e = assertThrows( DaoConstraintException.class, () -> villagerDao.insertOne( newVillager ) );
@@ -109,12 +109,12 @@ public class VillagerDaoDummyImplTest {
 	@Test
 	public void testInsertOneSpecifiedId() {
 		Villager newVillager = Villager.builder()
-				.id( 90000L )
+				.id( 90000 )
 				.name( "Johnny" )
 				.build();
 		Villager villager = villagerDao.insertOne( newVillager );
 		assertNotNull( villager );
-		assertEquals( 90000L, villager.getId().longValue() );
+		assertEquals( 90000, villager.getId().intValue() );
 		assertEquals( "Johnny", villager.getName() );
 	}
 
@@ -126,41 +126,41 @@ public class VillagerDaoDummyImplTest {
 		Villager villager = villagerDao.insertOne( newVillager );
 		assertNotNull( villager );
 		assertNotNull( villager.getId() );
-		assertTrue( villager.getId().longValue() > 0 );
+		assertTrue( villager.getId().intValue() > 0 );
 	}
 
 	@Test
 	public void testUpdateExisting() {
 		Villager villager = villagerDao.selectOneByName( "Amy" );
 		assertNotNull( villager );
-		Long villagerId = villager.getId();
+		int villagerId = villager.getId();
 
-		long newVillageId = 201L;
+		int newVillageId = 201;
 		villager.setVillageId( newVillageId );
 		villagerDao.update( villager );
 
 		Villager finalVillager = villagerDao.selectOneById( villagerId );
 		assertNotNull( finalVillager );
-		assertEquals( newVillageId, finalVillager.getVillageId().longValue() );
+		assertEquals( newVillageId, finalVillager.getVillageId().intValue() );
 	}
 
 	@Test
 	public void testUpdateFailNonExisting() {
 		Villager villager = Villager.builder()
-				.id( 1L )
+				.id( 1 )
 				.name( "Red Death" )
 				.build();
 		Villager response = villagerDao.update( villager );
 		assertNull( response );
 
-		Villager finalVillager = villagerDao.selectOneById( 1L );
+		Villager finalVillager = villagerDao.selectOneById( 1 );
 		assertNull( finalVillager );
 	}
 
 	@Test
 	public void testDeleteFail() {
 		Villager deleteVillager = Villager.builder()
-				.id( 1L )
+				.id( 1 )
 				.name( "The Monarch" )
 				.build();
 		boolean wasDeleted = villagerDao.deleteOne( deleteVillager );
@@ -170,7 +170,7 @@ public class VillagerDaoDummyImplTest {
 	@Test
 	public void testDeleteSuccess() {
 		int count = villagerDao.selectAll().size();
-		
+
 		Villager villager = villagerDao.selectOneByName( "Gary" );
 		assertNotNull( villager );
 

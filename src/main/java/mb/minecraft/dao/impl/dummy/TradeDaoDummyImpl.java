@@ -26,8 +26,8 @@ public class TradeDaoDummyImpl implements TradeDao {
 
 	private static final Logger logger = LogManager.getLogger( TradeDaoDummyImpl.class );
 
-	private Map<Long,Trade> tradeTable;
-	private long idSeq;
+	private Map<Integer,Trade> tradeTable;
+	private int idSeq;
 
 
 	@PostConstruct
@@ -39,14 +39,14 @@ public class TradeDaoDummyImpl implements TradeDao {
 	private TradeDaoDummyImpl() {
 		logger.info( "TradeDaoDummyImpl constructor" );
 		tradeTable = new HashMap<>();
-		idSeq = 0L;
+		idSeq = 0;
 		for( Trade trade : generateMockData() ) {
 			insertOne( trade );
 		}
 	}
 
 	@Override
-	public Trade selectOneById( Long id ) {
+	public Trade selectOneById( int id ) {
 		return tradeTable.get( id );
 	}
 
@@ -102,8 +102,8 @@ public class TradeDaoDummyImpl implements TradeDao {
 
 
 
-	private long deriveId( Trade newRow ) {
-		long newId = newRow.getId() != null ? newRow.getId() : 0;
+	private int deriveId( Trade newRow ) {
+		int newId = newRow.getId() != null ? newRow.getId() : 0;
 		if( idSeq <= newId ) {
 			idSeq = newId + 1;
 			return newId;
@@ -125,25 +125,25 @@ public class TradeDaoDummyImpl implements TradeDao {
 
 	private List<Trade> generateMockData() {
 		List<Trade> list = new ArrayList<>();
-		list.add( generateObject( 1L, 699L, 1 ) );
-		list.add( generateObject( 2L, 699L, 2 ) );
-		list.add( generateObject( 3L, 701L, 1 ) );
-		list.add( generateObject( 4L, 701L, 2 ) );
-		list.add( generateObject( 5L, 702L, 1 ) );
-		list.add( generateObject( 6L, 702L, 2 ) );
-		list.add( generateObject( 7L, 704L, 1 ) );
-		list.add( generateObject( 8L, 704L, 2 ) );
-		list.add( generateObject( 9L, 73L, 1 ) );
-		list.add( generateObject( 10L, 73L, 2 ) );
-		list.add( generateObject( 11L, 73L, 3 ) );
-		list.add( generateObject( 12L, 73L, 4 ) );
-		list.add( generateObject( 13L, 705L, 1 ) );
-		list.add( generateObject( 14L, 705L, 2 ) );
-		list.add( generateObject( 15L, 705L, 3 ) );
+		list.add( generateObject( 1, 699, 1 ) );
+		list.add( generateObject( 2, 699, 2 ) );
+		list.add( generateObject( 3, 701, 1 ) );
+		list.add( generateObject( 4, 701, 2 ) );
+		list.add( generateObject( 5, 702, 1 ) );
+		list.add( generateObject( 6, 702, 2 ) );
+		list.add( generateObject( 7, 704, 1 ) );
+		list.add( generateObject( 8, 704, 2 ) );
+		list.add( generateObject( 9, 73, 1 ) );
+		list.add( generateObject( 10, 73, 2 ) );
+		list.add( generateObject( 11, 73, 3 ) );
+		list.add( generateObject( 12, 73, 4 ) );
+		list.add( generateObject( 13, 705, 1 ) );
+		list.add( generateObject( 14, 705, 2 ) );
+		list.add( generateObject( 15, 705, 3 ) );
 		return list;
 	}
 
-	private Trade generateObject( Long id, Long villagerId, int tradeSeqno ) {
+	private Trade generateObject( Integer id, Integer villagerId, int tradeSeqno ) {
 		return Trade.builder()
 				.id( id )
 				.villagerId( villagerId )

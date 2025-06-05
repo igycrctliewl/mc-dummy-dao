@@ -31,9 +31,9 @@ public class VillageDaoDummyImplTest {
 
 	@Test
 	public void testSelectOneById() {
-		Village village = villageDao.selectOneById( 201L );
+		Village village = villageDao.selectOneById( 201 );
 		assertNotNull( village );
-		assertEquals( 201L, village.getId().longValue() );
+		assertEquals( 201, village.getId().intValue() );
 		assertEquals( "Deep Water Cove", village.getName() );
 	}
 
@@ -41,7 +41,7 @@ public class VillageDaoDummyImplTest {
 	public void testSelectOneByName() {
 		Village village = villageDao.selectOneByName( "Heart" );
 		assertNotNull( village );
-		assertEquals( 202L, village.getId().longValue() );
+		assertEquals( 202, village.getId().intValue() );
 		assertEquals( "Heart", village.getName() );
 	}
 
@@ -55,34 +55,34 @@ public class VillageDaoDummyImplTest {
 				.filter( v -> v.getName().equals( "Geelong" ) )
 				.findFirst()
 				.get();
-		assertEquals( 212L, v1.getId().longValue() );
+		assertEquals( 212, v1.getId().intValue() );
 		assertEquals( "Geelong", v1.getName() );
 
 		Village v2 = villages.stream()
 				.filter( v -> v.getName().equals( "Newark" ) )
 				.findFirst()
 				.get();
-		assertEquals( 215L, v2.getId().longValue() );
+		assertEquals( 215, v2.getId().intValue() );
 		assertEquals( "Newark", v2.getName() );
 	}
 
 	@Test
 	public void testInsertOneSuccess() {
 		Village newVillage = Village.builder()
-				.id( 10L )
+				.id( 10 )
 				.name( "Pacifica" )
 				.build();
 		Village village = villageDao.insertOne( newVillage );
 		assertNotNull( village );
-		assertEquals( 10L, village.getId().longValue() );
+		assertEquals( 10, village.getId().intValue() );
 		assertEquals( "Pacifica", village.getName() );
 	}
 
 	@Test
 	public void testInsertOneIdFail() {
 		Village newVillage = Village.builder()
-				.id( 212L )
-				.name( "Pacifica" )
+				.id( 212 )
+				.name( "Duplicate-Id-Fail Village" )
 				.build();
 		Exception e = assertThrows( DaoConstraintException.class, () -> villageDao.insertOne( newVillage ) );
 		assertNotNull( e );
@@ -93,7 +93,7 @@ public class VillageDaoDummyImplTest {
 	@Test
 	public void testInsertOneNameFail() {
 		Village newVillage = Village.builder()
-				.id( 5L )
+				.id( 5 )
 				.name( "Deep Water Cove" )
 				.build();
 		Exception e = assertThrows( DaoConstraintException.class, () -> villageDao.insertOne( newVillage ) );
@@ -105,12 +105,12 @@ public class VillageDaoDummyImplTest {
 	@Test
 	public void testInsertOneSpecifiedId() {
 		Village newVillage = Village.builder()
-				.id( 90000L )
+				.id( 90000 )
 				.name( "Pacifica" )
 				.build();
 		Village village = villageDao.insertOne( newVillage );
 		assertNotNull( village );
-		assertEquals( 90000L, village.getId().longValue() );
+		assertEquals( 90000, village.getId().intValue() );
 		assertEquals( "Pacifica", village.getName() );
 	}
 
@@ -122,14 +122,14 @@ public class VillageDaoDummyImplTest {
 		Village village = villageDao.insertOne( newVillage );
 		assertNotNull( village );
 		assertNotNull( village.getId() );
-		assertTrue( village.getId().longValue() > 0 );
+		assertTrue( village.getId().intValue() > 0 );
 	}
 
 	@Test
 	public void testUpdateExisting() {
 		Village village = villageDao.selectOneByName( "Heart" );
 		assertNotNull( village );
-		Long villageId = village.getId();
+		int villageId = village.getId();
 
 		String newName = "Heart of the Desert";
 		village.setName( newName );
@@ -143,20 +143,20 @@ public class VillageDaoDummyImplTest {
 	@Test
 	public void testUpdateFailNonExisting() {
 		Village village = Village.builder()
-				.id( 1L )
+				.id( 1 )
 				.name( "The Igloo" )
 				.build();
 		Village response = villageDao.update( village );
 		assertNull( response );
 
-		Village finalVillage = villageDao.selectOneById( 1L );
+		Village finalVillage = villageDao.selectOneById( 1 );
 		assertNull( finalVillage );
 	}
 
 	@Test
 	public void testDeleteFail() {
 		Village deleteVillage = Village.builder()
-				.id( 1L )
+				.id( 1 )
 				.name( "Earth" )
 				.build();
 		boolean wasDeleted = villageDao.deleteOne( deleteVillage );
@@ -166,7 +166,7 @@ public class VillageDaoDummyImplTest {
 	@Test
 	public void testDeleteSuccess() {
 		int count = villageDao.selectAll().size();
-		
+
 		Village village = villageDao.selectOneByName( "Newark" );
 		assertNotNull( village );
 

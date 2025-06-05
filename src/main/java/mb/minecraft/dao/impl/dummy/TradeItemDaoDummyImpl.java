@@ -157,7 +157,7 @@ public class TradeItemDaoDummyImpl implements TradeItemDao {
 		return list;
 	}
 
-	private TradeItem generateObject( long tradeId, String offReq, int seqno, int quantity, long itemId, String memo ) {
+	private TradeItem generateObject( int tradeId, String offReq, int seqno, int quantity, int itemId, String memo ) {
 		return TradeItem.builder()
 				.tradeId( tradeId )
 				.offerRequire( OfferRequire.getFromCode( offReq ) )

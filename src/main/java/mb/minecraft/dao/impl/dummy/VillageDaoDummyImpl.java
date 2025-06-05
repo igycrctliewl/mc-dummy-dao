@@ -25,8 +25,8 @@ public class VillageDaoDummyImpl implements VillageDao {
 
 	private static final Logger logger = LogManager.getLogger( VillageDaoDummyImpl.class );
 
-	private Map<Long,Village> villageTable;
-	private long idSeq;
+	private Map<Integer,Village> villageTable;
+	private int idSeq;
 
 
 	@PostConstruct
@@ -38,14 +38,14 @@ public class VillageDaoDummyImpl implements VillageDao {
 	private VillageDaoDummyImpl() {
 		logger.info( "VillageDaoDummyImpl constructor" );
 		this.villageTable = new HashMap<>();
-		this.idSeq = 0L;
+		this.idSeq = 0;
 		for( Village v : generateMockData() ) {
 			insertOne( v );
 		}
 	}
 
 	@Override
-	public Village selectOneById( Long id ) {
+	public Village selectOneById( int id ) {
 		return villageTable.get( id );
 	}
 
@@ -100,8 +100,8 @@ public class VillageDaoDummyImpl implements VillageDao {
 
 
 
-	private long deriveId( Village newRow ) {
-		long newId = newRow.getId() != null ? newRow.getId() : 0;
+	private int deriveId( Village newRow ) {
+		int newId = newRow.getId() != null ? newRow.getId() : 0;
 		if( idSeq <= newId ) {
 			idSeq = newId + 1;
 			return newId;
@@ -131,20 +131,20 @@ public class VillageDaoDummyImpl implements VillageDao {
 
 	private List<Village> generateMockData() {
 		List<Village> list = new ArrayList<>();
-		list.add( generateObject( 201L, "Deep Water Cove" ) );
-		list.add( generateObject( 202L, "Heart" ) );
-		list.add( generateObject( 203L, "Giant Oaks" ) );
-		list.add( generateObject( 204L, "Kingdom of the Southern Islands" ) );
-		list.add( generateObject( 205L, "Winter Village" ) );
-		list.add( generateObject( 211L, "Lathlain" ) );
-		list.add( generateObject( 212L, "Geelong" ) );
-		list.add( generateObject( 213L, "Calgary" ) );
-		list.add( generateObject( 214L, "Colorado Springs" ) );
-		list.add( generateObject( 215L, "Newark" ) );
+		list.add( generateObject( 201, "Deep Water Cove" ) );
+		list.add( generateObject( 202, "Heart" ) );
+		list.add( generateObject( 203, "Giant Oaks" ) );
+		list.add( generateObject( 204, "Kingdom of the Southern Islands" ) );
+		list.add( generateObject( 205, "Winter Village" ) );
+		list.add( generateObject( 211, "Lathlain" ) );
+		list.add( generateObject( 212, "Geelong" ) );
+		list.add( generateObject( 213, "Calgary" ) );
+		list.add( generateObject( 214, "Colorado Springs" ) );
+		list.add( generateObject( 215, "Newark" ) );
 		return list;
 	}
 
-	private Village generateObject( Long id, String name ) {
+	private Village generateObject( Integer id, String name ) {
 		return Village.builder()
 				.id( id )
 				.name( name )
