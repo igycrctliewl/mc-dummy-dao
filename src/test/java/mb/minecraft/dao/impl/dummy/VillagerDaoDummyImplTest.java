@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import mb.minecraft.dao.DaoConstraintException;
+import mb.minecraft.model.Village;
 import mb.minecraft.model.Villager;
 
 
@@ -68,6 +69,36 @@ public class VillagerDaoDummyImplTest {
 				.findFirst()
 				.get();
 		assertEquals( 701, v2.getId().intValue() );
+	}
+
+	@Test
+	public void testSelectAllForVillage() {
+		Village calgary = Village.builder()
+				.id( 213 )
+				.name( "Calgary" )
+				.build();
+		List<Villager> villagers = villagerDao.selectAll( calgary );
+		assertNotNull( villagers );
+		assertEquals( 1, villagers.size() );
+
+		Villager v1 = villagers.get(0);
+		assertEquals( "Tyler", v1.getName() );
+		assertEquals( 73, v1.getId().intValue() );
+	}
+
+	@Test
+	public void testSelectAllForEmptyVillage() {
+		Village empty = new Village();
+		List<Villager> villagers = villagerDao.selectAll( empty );
+		assertNotNull( villagers );
+		assertEquals( 0, villagers.size() );
+	}
+
+	@Test
+	public void testSelectAllForNullVillage() {
+		List<Villager> villagers = villagerDao.selectAll( null );
+		assertNotNull( villagers );
+		assertEquals( 0, villagers.size() );
 	}
 
 	@Test

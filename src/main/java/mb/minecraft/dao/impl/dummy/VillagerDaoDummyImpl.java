@@ -1,10 +1,12 @@
 package mb.minecraft.dao.impl.dummy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import mb.minecraft.dao.DaoConstraintException;
 import mb.minecraft.dao.VillagerDao;
+import mb.minecraft.model.Village;
 import mb.minecraft.model.Villager;
 
 /**
@@ -63,6 +66,17 @@ public class VillagerDaoDummyImpl implements VillagerDao {
 	@Override
 	public List<Villager> selectAll() {
 		return new ArrayList<>( villagerTable.values() );
+	}
+
+	@Override
+	public List<Villager> selectAll( Village village ) {
+		if( village == null || village.getId() == null ) {
+			return Collections.emptyList();
+		} else {
+			return villagerTable.values().stream()
+					.filter( v -> village.getId().equals( v.getVillageId() ) )
+					.collect( Collectors.toList() );
+		}
 	}
 
 	@Override
