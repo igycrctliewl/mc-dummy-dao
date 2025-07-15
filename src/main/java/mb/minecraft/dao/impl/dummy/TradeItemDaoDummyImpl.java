@@ -1,7 +1,9 @@
 package mb.minecraft.dao.impl.dummy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,7 +29,8 @@ public class TradeItemDaoDummyImpl implements TradeItemDao {
 
 	private static final Logger logger = LogManager.getLogger( TradeItemDaoDummyImpl.class );
 
-	private List<TradeItem> tradeItemTable;
+	private Map<Integer,TradeItem> tradeItemTable;
+	private int idSeq;
 
 
 	@PostConstruct
@@ -38,34 +41,40 @@ public class TradeItemDaoDummyImpl implements TradeItemDao {
 
 	private TradeItemDaoDummyImpl() {
 		logger.info( "TradeItemDaoDummyImpl constructor" );
-		this.tradeItemTable = generateMockData();
+		this.idSeq = 0;
+		this.tradeItemTable = new HashMap<>();
+		for( TradeItem item : generateMockData() ) {
+			insertOne( item );
+		}
 	}
 
 	// I would like this method to return a new List, not the private List for this object
-	// This is NOT meant to be a getter method for the List
+	// This is NOT meant to be a getter method for the table
 	@Override
 	public List<TradeItem> selectAll() {
-		return tradeItemTable.stream().collect( Collectors.toList() ); 
+		return tradeItemTable.values().stream().collect( Collectors.toList() );
 	}
 
 	@Override
 	public List<TradeItem> selectAll( Trade trade ) {
-		return tradeItemTable.stream()
+		return tradeItemTable.values().stream()
 				.filter( ti -> ti.getTradeId().equals( trade.getId() ) )
 				.collect( Collectors.toList() ); 
 	}
 
 	@Override
 	public List<TradeItem> selectAll( Item item ) {
-		return tradeItemTable.stream()
+		return tradeItemTable.values().stream()
 				.filter( ti -> ti.getItemId().equals( item.getId() ) )
 				.collect( Collectors.toList() ); 
 	}
 
 	@Override
 	public TradeItem insertOne( TradeItem newRow ) {
+		newRow.setId( deriveId( newRow ) );
 		testUniqueIdConstraint( newRow );
-		tradeItemTable.add( newRow );
+		testUniqueTradeKeysConstraint( newRow );
+		tradeItemTable.put( newRow.getId(), newRow );
 		return newRow;
 	}
 
@@ -77,8 +86,8 @@ public class TradeItemDaoDummyImpl implements TradeItemDao {
 
 	@Override
 	public TradeItem update( TradeItem item ) {
-		if( deleteOne( item ) ) {
-			tradeItemTable.add( item );
+		if( tradeItemTable.containsKey( item.getId() ) ) {
+			tradeItemTable.put( item.getId(), item );
 			return item;
 		} else {
 			return null;
@@ -87,9 +96,8 @@ public class TradeItemDaoDummyImpl implements TradeItemDao {
 
 	@Override
 	public boolean deleteOne( TradeItem item ) {
-		Optional<TradeItem> searchedItem = findMatching( item );
-		if( searchedItem.isPresent() ) {
-			tradeItemTable.remove( searchedItem.get() );
+		if( tradeItemTable.containsKey( item.getId() ) ) {
+			tradeItemTable.remove( item.getId() );
 			return true;
 		} else {
 			return false;
@@ -103,15 +111,26 @@ public class TradeItemDaoDummyImpl implements TradeItemDao {
 
 
 
-	private Optional<TradeItem> findMatching( TradeItem item ) {
-		return tradeItemTable.stream()
-				.filter( ti -> ti.getTradeId().equals( item.getTradeId() ) && 
-						ti.getOfferRequire().equals( item.getOfferRequire() ) &&
-						ti.getSeqno().equals( item.getSeqno() ) )
-				.findFirst();
+	private int deriveId( TradeItem newRow ) {
+		int newId = newRow.getId() != null ? newRow.getId() : 0;
+		if( idSeq <= newId ) {
+			idSeq = newId + 1;
+			return newId;
+		}
+		if( newId > 0 )
+			return newId;
+		else
+			return idSeq++;
 	}
 
 	private void testUniqueIdConstraint( TradeItem row ) {
+		if( tradeItemTable.containsKey( row.getId() ) ) {
+			throw new DaoConstraintException(
+					String.format( DaoConstraintException.UNIQUE_CONSTRAINT_ERROR, "TradeItem", "Id" ), row );
+		}
+	}
+
+	private void testUniqueTradeKeysConstraint( TradeItem row ) {
 		Optional<TradeItem> searchedItem = findMatching( row );
 		if( searchedItem.isPresent() ) {
 			throw new DaoConstraintException(
@@ -119,6 +138,13 @@ public class TradeItemDaoDummyImpl implements TradeItemDao {
 		}
 	}
 
+	private Optional<TradeItem> findMatching( TradeItem item ) {
+		return tradeItemTable.values().stream()
+				.filter( ti -> ti.getTradeId().equals( item.getTradeId() ) &&
+						ti.getOfferRequire().equals( item.getOfferRequire() ) &&
+						ti.getSeqno().equals( item.getSeqno() ) )
+				.findFirst();
+	}
 
 
 	private List<TradeItem> generateMockData() {

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -94,12 +95,30 @@ public class TradeItemDaoDummyImplTest {
 				.build();
 		TradeItem item = tradeItemDao.insertOne( newItem );
 		assertNotNull( item );
+		assertNotNull( item.getId() );
 		assertEquals( 6, item.getTradeId().intValue() );
 		assertEquals( count + 1, tradeItemDao.selectAll( tradeKey ).size() );
 	}
 
 	@Test
 	public void testInsertOneIdFail() {
+		TradeItem newItem = TradeItem.builder()
+				.id( 1 )
+				.tradeId( 6 )
+				.offerRequire( REQUIRE )
+				.seqno( 2 )
+				.quantity( 1 )
+				.itemId( 1010 )
+				.memo( "greedy" )
+				.build();
+		Exception e = assertThrows( DaoConstraintException.class, () -> tradeItemDao.insertOne( newItem ) );
+		assertNotNull( e );
+		assertEquals( "Dataset of type \"TradeItem\" does not allow duplicate values for field \"Id\"", e.getMessage() );
+		logger.error( e.getMessage() );
+	}
+
+	@Test
+	public void testInsertOneTradeKeyFail() {
 		TradeItem newItem = TradeItem.builder()
 				.tradeId( 1 )
 				.offerRequire( OFFER )
@@ -159,6 +178,7 @@ public class TradeItemDaoDummyImplTest {
 
 	@Test
 	public void testUpdateFailNonExisting() {
+		// no TradeItem.ID
 		TradeItem item = TradeItem.builder()
 				.tradeId( 1 )
 				.offerRequire( OFFER )
@@ -168,18 +188,11 @@ public class TradeItemDaoDummyImplTest {
 		TradeItem response = tradeItemDao.update( item );
 		assertNull( response );
 
+		// invalid TradeItem.ID
 		item = TradeItem.builder()
+				.id( 100 )
 				.tradeId( 100 )
 				.offerRequire( OFFER )
-				.seqno( 1 )
-				.quantity( 10 )
-				.build();
-		response = tradeItemDao.update( item );
-		assertNull( response );
-
-		item = TradeItem.builder()
-				.tradeId( 1 )
-				.offerRequire( null )
 				.seqno( 1 )
 				.quantity( 10 )
 				.build();
@@ -198,6 +211,23 @@ public class TradeItemDaoDummyImplTest {
 		boolean wasDeleted = tradeItemDao.deleteOne( tradeItem );
 		assertTrue( wasDeleted );
 		assertEquals( count - 1, tradeItemDao.selectAll().size() );
+	}
+
+	@Test
+	public void testDeleteFail() {
+		int count = tradeItemDao.selectAll().size();
+
+		TradeItem tradeItem = TradeItem.builder()
+				.id( 100 )
+				.tradeId( 100 )
+				.offerRequire( OFFER )
+				.seqno( 1 )
+				.quantity( 10 )
+				.build();
+
+		boolean wasDeleted = tradeItemDao.deleteOne( tradeItem );
+		assertFalse( wasDeleted );
+		assertEquals( count, tradeItemDao.selectAll().size() );
 	}
 
 }
