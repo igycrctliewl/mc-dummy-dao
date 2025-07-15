@@ -4,13 +4,13 @@
 	<artifactId>mc-dummy-dao</artifactId>
 	<name>mc-dummy-dao</name>
 	<packaging>jar</packaging>
-	<version>1.1.3-SNAPSHOT</version>
+	<version>1.1.3</version>
 
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<mcDataVersion>1.1.3-SNAPSHOT</mcDataVersion>
+		<mcDataVersion>1.1.3</mcDataVersion>
 		<springVersion>5.3.15</springVersion>
 		<jacksonVersion>2.17.2</jacksonVersion>
 		<apacheLoggingVersion>2.17.1</apacheLoggingVersion>
