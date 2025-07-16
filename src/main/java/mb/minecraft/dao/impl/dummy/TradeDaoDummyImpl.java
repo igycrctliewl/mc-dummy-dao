@@ -66,6 +66,7 @@ public class TradeDaoDummyImpl implements TradeDao {
 	public Trade insertOne( Trade newRow ) {
 		newRow.setId( deriveId( newRow ) );
 		testUniqueIdConstraint( newRow );
+		deriveSeqno( newRow );
 		tradeTable.put( newRow.getId(), newRow );
 		return newRow;
 	}
@@ -112,6 +113,19 @@ public class TradeDaoDummyImpl implements TradeDao {
 			return newId;
 		else
 			return idSeq++;
+	}
+
+	private void deriveSeqno( Trade newRow ) {
+		if( newRow.getTradeSeqno() == null && newRow.getVillagerId() != null ) {
+			int seqno = 0;
+			for( Trade t : selectAll( Villager.builder().id( newRow.getVillagerId() ).build() ) ) {
+				if( t.getTradeSeqno() > seqno ) {
+					seqno = t.getTradeSeqno();
+				}
+			}
+			seqno++;
+			newRow.setTradeSeqno( seqno );
+		}
 	}
 
 	private void testUniqueIdConstraint( Trade row ) {

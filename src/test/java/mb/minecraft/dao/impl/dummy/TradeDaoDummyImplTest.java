@@ -92,6 +92,20 @@ public class TradeDaoDummyImplTest {
 	}
 
 	@Test
+	public void testInsertDeriveSeqno() {
+		int count = tradeDao.selectAll().size();
+
+		Trade newTrade = Trade.builder()
+				.villagerId( 705 )
+				.build();
+		Trade trade = tradeDao.insertOne( newTrade );
+		assertNotNull( trade );
+		assertTrue( trade.getId().intValue() > 0 );
+		assertEquals( 4, trade.getTradeSeqno().intValue() );
+		assertEquals( count + 1, tradeDao.selectAll().size() );
+	}
+
+	@Test
 	public void testInsertOneIdFail() {
 		Trade newTrade = Trade.builder()
 				.id( 1 )
